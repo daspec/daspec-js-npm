@@ -17,13 +17,15 @@ DaSpec's primary target are teams practising Behaviour Driven Development, Speci
 
 ## Installation
 
-For the console runner
+You can run DaSpec directly from the console, as a standalone utility, or you can integrate it using NPM scripts.
+
+##Console runner
+ 
+Install daspec globally:
 
     npm install daspec -g
 
-## Usage
-
-Specify 
+You can now run daspec in the console:
 
     daspec --specs ...  --steps ... --output-dir ... [--sources ...]
 
@@ -39,6 +41,35 @@ or
 * __--config__: (required) path to a config file that contains a JSON with the relevant options
 
 You can also save the default configuration options into a file called __daspec.json__ in the working directory, and run __daspec__ without arguments.
+
+## NPM script
+
+Install daspec to your project repository
+
+    npm install daspec --save-dev
+
+Create a config file telling daspec where your specs and JS sources are:
+
+    {
+    	"specs": ["specs/*.md"],
+    	"steps": ["steps/**/*.js"],
+    	"sources": ["src/**/*.js"],
+    	"output-dir": "daspec-output"
+    }
+
+Add a NPM test script using daspec to __package.json__, pointing to your config file
+
+    "scripts": {
+      "test": "daspec --config config-path.json"
+    },
+
+Alternatively, save the config file as __daspec.json__ in your project root, and you won't have to supply the __--config__ argument. Now run 
+
+    npm test
+
+and DaSpec will execute the tests, printing the results to the console, and saving the resulting files to the output dir specified in the config file (in the previous example, __daspec-output__).
+
+For en example, see the [daspec-js-npm-example](https://github.com/daspec/daspec-js-npm-example) repository on GitHub.
 
 ## Support
 
