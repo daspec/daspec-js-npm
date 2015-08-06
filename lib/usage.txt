@@ -1,0 +1,10 @@
+usage: 
+
+  daspec --specs <list of specification files> --steps <list of step files> --output-dir <output directory> [--sources <list of source files>]
+
+or:
+  
+  daspec --config <configuration file>
+
+you can also save the default configuration options into daspec.json and run daspec without arguments
+
