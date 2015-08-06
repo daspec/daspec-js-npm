@@ -17,9 +17,29 @@ DaSpec's primary target are teams practising Behaviour Driven Development, Speci
 
 ## Installation
 
-Install 
+For the console runner
 
     npm install daspec
+
+
+## Usage
+
+Specify 
+
+    daspec --specs <list of specification files> --steps <list of step files> [--sources <list of source files>] --output-dir <output directory>
+
+* __--specs__: (required) should list markdown files containing specifications. All the usual wildcard patterns are supported
+* __--steps__: (required) should list javascript files containing step definitions. All the usual wildcard patterns are supported
+* __--output-dir__: (required) where to store the result files
+* __--sources__: (optional) should list javascript files that will be loaded into global scope before step definitions. Not necessary if step definition files load the relevant source as node modules. All the usual wildcard patterns are supported.
+
+or 
+
+	daspec --config <configuration file>
+
+* __--config__: (required) path to a config file that contains a JSON with the relevant options
+
+You can also save the default configuration options into a file called __daspec.json__ in the working directory, and run __daspec__ without arguments.
 
 ## Support
 
