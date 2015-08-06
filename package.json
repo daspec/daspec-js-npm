@@ -1,0 +1,37 @@
+{
+  "name": "daspec",
+  "version": "0.0.1",
+  "description": "Official DaSpec package for the console runner executing specs using Node.js",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/daspec/daspec-js-npm"
+  },
+  "keywords": [
+    "daspec",
+    "test",
+    "tdd",
+    "bdd",
+	"specbyexample"
+  ],
+  "bugs": {
+    "url": "https://github.com/daspec/daspec-js-npm/issues"
+  },
+  "homepage": "http://daspec.com",
+  "files": ["lib", "src"],
+  "bin": {
+    "daspec": "./lib/main.js"
+  },
+  "scripts": {
+    "test": "node spec/support/jasmine-runner.js"
+  },
+  "main": "./lib/daspec-console-runner.js",
+  "dependencies": {
+    "daspec-core": "0.0.3",
+    "glob": "^5.0.14"
+  },
+  "devDependencies": {
+    "jasmine": "^2.3.2",
+    "jasmine-spec-reporter": "^2.4.0"
+  }
+}
