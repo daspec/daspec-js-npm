@@ -5,6 +5,8 @@ var glob = require('glob'),
 	DaSpec = require('daspec-core'),
 	vm = require('vm'),
 	fs = require('fs'),
+	mkdirp = require('mkdirp'),
+	path = require('path'),
 	fsOptions = {encoding: 'utf8'}; /* TODO config encoding? */
 module.exports = function ConsoleRunner(config) {
 	'use strict';
@@ -38,12 +40,13 @@ module.exports = function ConsoleRunner(config) {
 			sourceScripts,
 			stepScripts,
 			defineSteps = function (specContext) {
+				var nodeContext = vm.createContext(specContext);
 				global.defineStep = specContext.defineStep;
 				sourceScripts.concat(stepScripts).forEach(function (script) {
-					script.runInThisContext();
+					script.runInContext(nodeContext);
 				});
-			};
-
+			},
+			runner = new DaSpec.Runner(defineSteps);
 		checkConfig();
 		Object.keys(files).forEach(function (key) {
 			if (config[key]) {
@@ -56,19 +59,16 @@ module.exports = function ConsoleRunner(config) {
 		sourceScripts =	files.sources.map(toScript);
 		stepScripts = files.steps.map(toScript);
 
-
 		files.specs.forEach(function (specFile) {
 			console.log('running', specFile);
-			var runner = new DaSpec.Runner(defineSteps),
-				source,
+			var	source,
 				result,
 				outputFile = outputPath(specFile, outputDir);
 			source = fs.readFileSync(specFile, fsOptions);
 			result = runner.example(source);
 			console.log('... done, writing', outputFile);
-			/*
+			mkdirp.sync(path.dirname(outputFile));
 			fs.writeFileSync(outputFile, result, fsOptions);
-			*/
 		});
 	};
 };

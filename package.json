@@ -12,23 +12,27 @@
     "test",
     "tdd",
     "bdd",
-	"specbyexample"
+    "specbyexample"
   ],
   "bugs": {
     "url": "https://github.com/daspec/daspec-js-npm/issues"
   },
   "homepage": "http://daspec.com",
-  "files": ["lib", "src"],
+  "files": [
+    "lib",
+    "src"
+  ],
   "bin": {
     "daspec": "./lib/main.js"
   },
   "scripts": {
     "test": "node spec/support/jasmine-runner.js"
   },
-  "main": "./lib/daspec-console-runner.js",
+  "main": "./src/console-runner.js",
   "dependencies": {
-    "daspec-core": "0.0.3",
-    "glob": "^5.0.14"
+    "daspec-core": "0.0.4",
+    "glob": "^5.0.14",
+    "mkdirp": "^0.5.1"
   },
   "devDependencies": {
     "jasmine": "^2.3.2",

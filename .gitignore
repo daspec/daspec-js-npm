@@ -1,4 +1,5 @@
 node_modules
 SpecRunner.html
+daspec-output
 .grunt
 *.log
