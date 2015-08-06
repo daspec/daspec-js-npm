@@ -1,4 +1,4 @@
-/*global module, require, console, global */
+/*global module, require, console */
 
 var glob = require('glob'),
 	outputPath = require('./output-path'),
@@ -41,7 +41,6 @@ module.exports = function ConsoleRunner(config) {
 			stepScripts,
 			defineSteps = function (specContext) {
 				var nodeContext = vm.createContext(specContext);
-				global.defineStep = specContext.defineStep;
 				sourceScripts.concat(stepScripts).forEach(function (script) {
 					script.runInContext(nodeContext);
 				});
