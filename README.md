@@ -53,7 +53,8 @@ Create a config file telling daspec where your specs and JS sources are:
     	"specs": ["specs/*.md"],
     	"steps": ["steps/**/*.js"],
     	"sources": ["src/**/*.js"],
-    	"output-dir": "daspec-output"
+    	"output-dir": "daspec-output",
+      "formatters": ["daspec/formatters/markdown-files", "daspec/formatters/console"]
     }
 
 Add a NPM test script using daspec to __package.json__, pointing to your config file
@@ -69,6 +70,11 @@ Alternatively, save the config file as __daspec.json__ in your project root, and
 and DaSpec will execute the tests, printing the results to the console, and saving the resulting files to the output dir specified in the config file (in the previous example, __daspec-output__).
 
 For en example, see the [daspec-js-npm-example](https://github.com/daspec/daspec-js-npm-example) repository on GitHub.
+
+
+## Continuous integration
+
+Both the console tool and the NPM script set-up will report a non-zero exit code in case of any failures or exceptions during processing. This means that you can use those scripts straight away in a continuous integration setup. However, it's a good idea to change the standard list of formatters to something more easily machine consumable. See the [Installation Guide](http://daspec.com/guides/install.html) for more information about this.
 
 ## Support
 

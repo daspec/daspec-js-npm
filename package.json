@@ -1,6 +1,6 @@
 {
   "name": "daspec",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "description": "Official DaSpec package for the console runner executing specs using Node.js",
   "license": "MIT",
   "repository": {
@@ -20,7 +20,8 @@
   "homepage": "http://daspec.com",
   "files": [
     "lib",
-    "src"
+    "src",
+    "formatters"
   ],
   "bin": {
     "daspec": "./lib/main.js"
