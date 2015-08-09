@@ -1,3 +1,5 @@
+_"It's in da spec!"_
+
 DaSpec console runner for Node.js
 
 # What is DaSpec?
@@ -53,8 +55,7 @@ Create a config file telling daspec where your specs and JS sources are:
     	"specs": ["specs/*.md"],
     	"steps": ["steps/**/*.js"],
     	"sources": ["src/**/*.js"],
-    	"output-dir": "daspec-output",
-      "formatters": ["daspec/formatters/markdown-files", "daspec/formatters/console"]
+    	"output-dir": "daspec-output"
     }
 
 Add a NPM test script using daspec to __package.json__, pointing to your config file
