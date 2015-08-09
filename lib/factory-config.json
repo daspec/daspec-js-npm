@@ -1,0 +1,4 @@
+{
+	"encoding": "utf8",
+	"formatters": ["./formatters/markdown-files", "./formatters/console"]
+}

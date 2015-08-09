@@ -2,7 +2,7 @@
 module.exports = function createFileSavingResultFormatter(config) {
 	'use strict';
 	var DaSpec = require('daspec-core'),
-		outputPath = require('./output-path'),
+		outputPath = require('../output-path'),
 		fs = require('fs'),
 		mkdirp = require('mkdirp'),
 		path = require('path'),

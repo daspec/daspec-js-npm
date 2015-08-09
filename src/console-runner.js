@@ -46,7 +46,7 @@ module.exports = function ConsoleRunner(config) {
 			countingResultFormatter = new DaSpec.CountingResultFormatter(),
 			addFormatters = function () {
 				compositeResultFormatter.add(countingResultFormatter);
-				['./file-saving-result-formatter', './console-result-formatter'].forEach(function (module) {
+				config.formatters.forEach(function (module) {
 					compositeResultFormatter.add(require(module)(config));
 				});
 			},

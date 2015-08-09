@@ -1,5 +1,3 @@
-"It's in da spec"
-
 DaSpec console runner for Node.js
 
 # What is DaSpec?
@@ -27,12 +25,13 @@ Install daspec globally:
 
 You can now run daspec in the console:
 
-    daspec --specs ...  --steps ... --output-dir ... [--sources ...]
+    daspec --specs ...  --steps ... --output-dir ... [--sources ...] [--formatters ...]
 
 * __--specs__: (required) list of markdown files containing specifications. All the usual wildcard patterns are supported
 * __--steps__: (required) list of javascript files containing step definitions. All the usual wildcard patterns are supported
 * __--output-dir__: (required) where to store the result files
 * __--sources__: (optional) list of javascript files that will be loaded into global scope before step definitions. Not necessary if step definition files load the relevant source as node modules. All the usual wildcard patterns are supported.
+* __--formatters__: (optional) list of formatters for processing results. If omitted, DaSpec will print a summary to the console and save markdown files in the output directory.
 
 or 
 
