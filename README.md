@@ -17,7 +17,7 @@ DaSpec's primary target are teams practising Behaviour Driven Development, Speci
 
 You can run DaSpec directly from the console, as a standalone utility, or you can integrate it using NPM scripts.
 
-##Console runner
+## Console runner
  
 Install daspec globally:
 
