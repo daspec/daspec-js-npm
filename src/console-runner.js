@@ -1,17 +1,14 @@
-/*global module, require, console */
+/*global module, require */
 
 var glob = require('glob'),
-	outputPath = require('./output-path'),
 	DaSpec = require('daspec-core'),
 	vm = require('vm'),
-	fs = require('fs'),
-	mkdirp = require('mkdirp'),
-	path = require('path'),
-	fsOptions = {encoding: 'utf8'}; /* TODO config encoding? */
+	fs = require('fs');
 module.exports = function ConsoleRunner(config) {
 	'use strict';
 	var self = this,
 		outputDir = config['output-dir'],
+		fsOptions = {encoding: (config.encoding || 'utf8')},
 		checkConfig = function () {
 			if (!outputDir) {
 				throw 'Output directory is not defined -- re-run with --help to see config arguments';
@@ -45,29 +42,45 @@ module.exports = function ConsoleRunner(config) {
 					script.runInContext(nodeContext);
 				});
 			},
-			runner = new DaSpec.Runner(defineSteps);
-		checkConfig();
-		Object.keys(files).forEach(function (key) {
-			if (config[key]) {
-				config[key].forEach(function (pattern) {
-					files[key] = files[key].concat(glob.sync(pattern));
+			compositeResultFormatter = new DaSpec.CompositeResultFormatter(),
+			countingResultFormatter = new DaSpec.CountingResultFormatter(),
+			addFormatters = function () {
+				compositeResultFormatter.add(countingResultFormatter);
+				['./file-saving-result-formatter', './console-result-formatter'].forEach(function (module) {
+					compositeResultFormatter.add(require(module)(config));
 				});
-			}
-		});
+			},
+			runner = new DaSpec.Runner(defineSteps, compositeResultFormatter),
+			globFiles = function () {
+				Object.keys(files).forEach(function (key) {
+					if (config[key]) {
+						config[key].forEach(function (pattern) {
+							files[key] = files[key].concat(glob.sync(pattern));
+						});
+					}
+				});
+			};
+
+		checkConfig();
+		globFiles();
 		checkFiles(files);
+
 		sourceScripts =	files.sources.map(toScript);
 		stepScripts = files.steps.map(toScript);
 
+		addFormatters();
+
 		files.specs.forEach(function (specFile) {
-			console.log('running', specFile);
-			var	source,
-				result,
-				outputFile = outputPath(specFile, outputDir);
+			var	source;
 			source = fs.readFileSync(specFile, fsOptions);
-			result = runner.example(source);
-			console.log('... done, writing', outputFile);
-			mkdirp.sync(path.dirname(outputFile));
-			fs.writeFileSync(outputFile, result, fsOptions);
+			runner.example(source, specFile);
 		});
+
+		compositeResultFormatter.close();
+
+		if (countingResultFormatter.total.failed || countingResultFormatter.total.error) {
+			return false;
+		}
+		return true;
 	};
 };

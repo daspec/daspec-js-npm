@@ -30,7 +30,7 @@
   },
   "main": "./src/console-runner.js",
   "dependencies": {
-    "daspec-core": "0.0.4",
+    "daspec-core": "^0.0.5",
     "glob": "^5.0.14",
     "mkdirp": "^0.5.1"
   },
