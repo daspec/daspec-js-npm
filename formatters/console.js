@@ -1,8 +1,8 @@
 /*global module, require, console */
-module.exports = function consoleResultFormatter() {
+module.exports = function consoleResultFormatter(runner) {
 	'use strict';
 	var DaSpec = require('daspec-core'),
-		countingResultFormatter = new DaSpec.CountingResultFormatter(),
+		countingResultListener = new DaSpec.CountingResultListener(runner),
 		symbol = function (counts) {
 			if (counts.error || counts.failed) {
 				return '-';
@@ -27,15 +27,14 @@ module.exports = function consoleResultFormatter() {
 			console.log('-----------------------------------------------------------');
 			headerPrinted = true;
 		};
-	countingResultFormatter.addEventListener('exampleFinished',  function (name, counts) {
+	runner.addEventListener('specEnded',  function (name) {
 		if (!headerPrinted) {
 			printHeader();
 		}
-		writeCounts(name, counts);
+		writeCounts(name, countingResultListener.current);
 	});
-	countingResultFormatter.addEventListener('closed', function (counts) {
+	runner.addEventListener('finished', function () {
 		console.log('-----------------------------------------------------------');
-		console.log(formatCounts(counts), '\tTOTAL');
+		console.log(formatCounts(countingResultListener.total), '\tTOTAL');
 	});
-	return countingResultFormatter;
 };

@@ -42,15 +42,14 @@ module.exports = function ConsoleRunner(config) {
 					script.runInContext(nodeContext);
 				});
 			},
-			compositeResultFormatter = new DaSpec.CompositeResultFormatter(),
-			countingResultFormatter = new DaSpec.CountingResultFormatter(),
+			runner = new DaSpec.Runner(defineSteps),
+			countingResultListener = new DaSpec.CountingResultListener(runner),
 			addFormatters = function () {
-				compositeResultFormatter.add(countingResultFormatter);
 				config.formatters.forEach(function (module) {
-					compositeResultFormatter.add(require(module)(config));
+					require(module)(runner, config);
 				});
 			},
-			runner = new DaSpec.Runner(defineSteps, compositeResultFormatter),
+
 			globFiles = function () {
 				Object.keys(files).forEach(function (key) {
 					if (config[key]) {
@@ -73,12 +72,12 @@ module.exports = function ConsoleRunner(config) {
 		files.specs.forEach(function (specFile) {
 			var	source;
 			source = fs.readFileSync(specFile, fsOptions);
-			runner.example(source, specFile);
+			runner.execute(source, specFile);
 		});
 
-		compositeResultFormatter.close();
+		runner.dispatchEvent('finished');
 
-		if (countingResultFormatter.total.failed || countingResultFormatter.total.error) {
+		if (countingResultListener.total.failed || countingResultListener.total.error) {
 			return false;
 		}
 		return true;
