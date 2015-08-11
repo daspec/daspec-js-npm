@@ -34,6 +34,8 @@ You can now run daspec in the console:
 * __--output-dir__: (required) where to store the result files
 * __--sources__: (optional) list of javascript files that will be loaded into global scope before step definitions. Not necessary if step definition files load the relevant source as node modules. All the usual wildcard patterns are supported.
 * __--formatters__: (optional) list of formatters for processing results. If omitted, DaSpec will print a summary to the console and save markdown files in the output directory.
+* __--allowSkipped__: (optional) Lines without matching steps are not marked and do not cause the spec to fail 
+* __--failFast__:  (optional) Stop execution as soon as a spec fails
 
 or 
 
