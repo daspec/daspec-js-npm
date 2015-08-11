@@ -3,23 +3,28 @@ usage: daspec {OPTIONS}
   Run DaSpec specifications from the file system using Node.js
 
 OPTIONS are:
-  
+
   --specs <FILE LIST>    list of specification files to be executed
 
   --steps <FILE LIST>    list of javascript files used for step definitions
 
   --output-dir <DIR>     the directory to store output files
-  
-  --sources <FILE LIST>  list of javascript files describing the system 
-                         under test - not needed if the steps use require() 
+
+  --sources <FILE LIST>  list of javascript files describing the system
+                         under test - not needed if the steps use require()
                          to load the system under test
 
   --formatters <LIST>    a list of node modules to be loaded for formatting
                          results. if omitted, prints results to console and
                          saves markdown files into the output folder.
-  
+
   --config <JSON FILE>   load all parameters from a config file rather than
                          individual args
+
+  --allowSkipped         Lines without matching steps are not marked and do
+                         not cause the spec to fail
+
+  --failFast             Stop execution as soon as a spec fails
 
 You can also save the default configuration options into daspec.json and run
 daspec without arguments

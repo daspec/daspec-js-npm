@@ -1,4 +1,4 @@
-/*global module, require */
+/*global module, require, global */
 
 var glob = require('glob'),
 	DaSpec = require('daspec-core'),
@@ -37,13 +37,13 @@ module.exports = function ConsoleRunner(config) {
 			sourceScripts,
 			stepScripts,
 			defineSteps = function (specContext) {
+				specContext.console = global.console;
 				var nodeContext = vm.createContext(specContext);
 				sourceScripts.concat(stepScripts).forEach(function (script) {
 					script.runInContext(nodeContext);
 				});
 			},
-			runner = new DaSpec.Runner(defineSteps),
-			countingResultListener = new DaSpec.CountingResultListener(runner),
+			runner = new DaSpec.Runner(defineSteps, config),
 			addFormatters = function () {
 				config.formatters.forEach(function (module) {
 					require(module)(runner, config);
@@ -58,28 +58,21 @@ module.exports = function ConsoleRunner(config) {
 						});
 					}
 				});
-			};
-
+			},
+			specs;
 		checkConfig();
 		globFiles();
 		checkFiles(files);
-
+		specs = files.specs.map(function (specFile) {
+			var	getSource = function () {
+				return fs.readFileSync(specFile, fsOptions);
+			};
+			return {name: specFile, content: getSource};
+		});
 		sourceScripts =	files.sources.map(toScript);
 		stepScripts = files.steps.map(toScript);
 
 		addFormatters();
-
-		files.specs.forEach(function (specFile) {
-			var	source;
-			source = fs.readFileSync(specFile, fsOptions);
-			runner.execute(source, specFile);
-		});
-
-		runner.dispatchEvent('finished');
-
-		if (countingResultListener.total.failed || countingResultListener.total.error) {
-			return false;
-		}
-		return true;
+		return runner.executeSuite(specs);
 	};
 };

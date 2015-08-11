@@ -14,9 +14,9 @@ describe('argParser', function () {
 		var result = underTest(['first', 'first', '--spec', 'second', 'third']);
 		expect(result).toEqual({'spec': ['second', 'third']});
 	});
-	it('skips empty -- groups', function () {
+	it('turns empty -- groups into boolean', function () {
 		var result = underTest(['--test', '--spec', 'second', 'third']);
-		expect(result).toEqual({'spec': ['second', 'third']});
+		expect(result).toEqual({'test': true, 'spec': ['second', 'third']});
 	});
 	it('returns empty object for empty arrays', function () {
 		var result = underTest([]);

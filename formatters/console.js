@@ -1,9 +1,7 @@
-/*global module, require, console */
+/*global module, console */
 module.exports = function consoleResultFormatter(runner) {
 	'use strict';
-	var DaSpec = require('daspec-core'),
-		countingResultListener = new DaSpec.CountingResultListener(runner),
-		symbol = function (counts) {
+	var symbol = function (counts) {
 			if (counts.error || counts.failed) {
 				return '-';
 			}
@@ -21,20 +19,23 @@ module.exports = function consoleResultFormatter(runner) {
 		writeCounts = function (exampleName, counts) {
 			console.log(formatCounts(counts) + '\t' + exampleName);
 		},
+		divider = function () {
+			console.log('-----------------------------------------------------------');
+		},
 		headerPrinted = false,
 		printHeader = function () {
 			console.log('STATUS\tEXEC\tPASS\tFAIL\tERR\tSKIP');
-			console.log('-----------------------------------------------------------');
+			divider();
 			headerPrinted = true;
 		};
-	runner.addEventListener('specEnded',  function (name) {
+	runner.addEventListener('specEnded',  function (name, counts) {
 		if (!headerPrinted) {
 			printHeader();
 		}
-		writeCounts(name, countingResultListener.current);
+		writeCounts(name, counts);
 	});
-	runner.addEventListener('finished', function () {
-		console.log('-----------------------------------------------------------');
-		console.log(formatCounts(countingResultListener.total), '\tTOTAL');
+	runner.addEventListener('suiteEnded', function (counts) {
+		divider();
+		writeCounts('TOTAL', counts);
 	});
 };
