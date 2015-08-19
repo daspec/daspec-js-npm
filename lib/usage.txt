@@ -26,6 +26,8 @@ OPTIONS are:
 
   --failFast             Stop execution as soon as a spec fails
 
+  --no-color             Do not use ANSI colors for the console summary
+
 You can also save the default configuration options into daspec.json and run
 daspec without arguments
 
@@ -35,6 +37,7 @@ EXAMPLES:
          --steps test-data/steps/*-step.js \
          --output-dir test-results
 
+or
 
   daspec --config test-data/daspec.json
 

@@ -29,21 +29,7 @@ You can now run daspec in the console:
 
     daspec --specs ...  --steps ... --output-dir ... [--sources ...] [--formatters ...]
 
-* __--specs__: (required) list of markdown files containing specifications. All the usual wildcard patterns are supported
-* __--steps__: (required) list of javascript files containing step definitions. All the usual wildcard patterns are supported
-* __--output-dir__: (required) where to store the result files
-* __--sources__: (optional) list of javascript files that will be loaded into global scope before step definitions. Not necessary if step definition files load the relevant source as node modules. All the usual wildcard patterns are supported.
-* __--formatters__: (optional) list of formatters for processing results. If omitted, DaSpec will print a summary to the console and save markdown files in the output directory.
-* __--allowSkipped__: (optional) Lines without matching steps are not marked and do not cause the spec to fail 
-* __--failFast__:  (optional) Stop execution as soon as a spec fails
-
-or 
-
-	daspec --config <configuration file>
-
-* __--config__: (required) path to a config file that contains a JSON with the relevant options
-
-You can also save the default configuration options into a file called __daspec.json__ in the working directory, and run __daspec__ without arguments.
+For a list of supported options, run `daspec --help` or see the [DaSpec Command Usage Page](lib/usage.txt). You can also save the default configuration options into a file called `daspec.json` in the working directory, and run `daspec` without arguments.
 
 ## NPM script
 
@@ -60,20 +46,21 @@ Create a config file telling daspec where your specs and JS sources are:
     	"output-dir": "daspec-output"
     }
 
-Add a NPM test script using daspec to __package.json__, pointing to your config file
+For a list of supported options, see the [DaSpec Command Usage Page](lib/usage.txt). Each command line argument corresponds to the configuration key of the same name, just without the `--` prefix.
+
+Add a NPM test script using `daspec` to `package.json`, pointing to your config file:
 
     "scripts": {
       "test": "daspec --config config-path.json"
     },
 
-Alternatively, save the config file as __daspec.json__ in your project root, and you won't have to supply the __--config__ argument. Now run 
+Alternatively, save the config file as `daspec.json` in your project root, and you won't have to supply the `--config` argument. Now run: 
 
     npm test
 
-and DaSpec will execute the tests, printing the results to the console, and saving the resulting files to the output dir specified in the config file (in the previous example, __daspec-output__).
+and DaSpec will execute the tests, printing the results to the console, and saving the resulting files to the output dir specified in the config file (in the previous example, `daspec-output`).
 
 For en example, see the [daspec-js-npm-example](https://github.com/daspec/daspec-js-npm-example) repository on GitHub.
-
 
 ## Continuous integration
 
