@@ -33,11 +33,11 @@ For a list of supported options, run `daspec --help` or see the [DaSpec Command 
 
 ## NPM script
 
-Install daspec to your project repository
+Install `daspec` to your project repository
 
     npm install daspec --save-dev
 
-Create a config file telling daspec where your specs and JS sources are:
+Create a config file pointing `daspec` to your specs and step files. For a list of supported options, see the [DaSpec Command Usage Page](lib/usage.txt). Each command line argument corresponds to the configuration key of the same name, just without the `--` prefix. For example:
 
     {
     	"specs": ["specs/*.md"],
@@ -45,8 +45,6 @@ Create a config file telling daspec where your specs and JS sources are:
     	"sources": ["src/**/*.js"],
     	"output-dir": "daspec-output"
     }
-
-For a list of supported options, see the [DaSpec Command Usage Page](lib/usage.txt). Each command line argument corresponds to the configuration key of the same name, just without the `--` prefix.
 
 Add a NPM test script using `daspec` to `package.json`, pointing to your config file:
 
@@ -58,13 +56,15 @@ Alternatively, save the config file as `daspec.json` in your project root, and y
 
     npm test
 
-and DaSpec will execute the tests, printing the results to the console, and saving the resulting files to the output dir specified in the config file (in the previous example, `daspec-output`).
+DaSpec will execute the tests, printing the results to the console, and saving the resulting files to the output dir specified in the config file (in the previous example, `daspec-output`).
 
 For en example, see the [daspec-js-npm-example](https://github.com/daspec/daspec-js-npm-example) repository on GitHub.
 
 ## Continuous integration
 
 Both the console tool and the NPM script set-up will report a non-zero exit code in case of any failures or exceptions during processing. This means that you can use those scripts straight away in a continuous integration setup. However, it's a good idea to change the standard list of formatters to something more easily machine consumable. See the [Installation Guide](http://daspec.com/guides/install.html) for more information about this.
+
+The [JUnit XML formatter](https://github.com/daspec/daspec-js-junit-xml-formatter) produces an output that can be consumed by most continuous integration servers.
 
 ## Support
 
