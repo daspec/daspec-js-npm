@@ -1,4 +1,4 @@
-/*global module, require, global */
+/*global module, require */
 
 var glob = require('glob'),
 	DaSpec = require('daspec-core'),
@@ -36,11 +36,9 @@ module.exports = function ConsoleRunner(config) {
 		var files = { specs: [], steps: [], sources: []},
 			sourceScripts,
 			stepScripts,
-			defineSteps = function (specContext) {
-				specContext.console = global.console;
-				var nodeContext = vm.createContext(specContext);
+			defineSteps = function () {
 				sourceScripts.concat(stepScripts).forEach(function (script) {
-					script.runInContext(nodeContext);
+					script.runInThisContext();
 				});
 			},
 			runner = new DaSpec.Runner(defineSteps, config),
@@ -49,7 +47,6 @@ module.exports = function ConsoleRunner(config) {
 					require(module)(runner, config);
 				});
 			},
-
 			globFiles = function () {
 				Object.keys(files).forEach(function (key) {
 					if (config[key]) {
@@ -59,9 +56,15 @@ module.exports = function ConsoleRunner(config) {
 					}
 				});
 			},
+			remapMatchers = function () {
+				if (config.matchers) {
+					config.matchers = config.matchers.map(require);
+				}
+			},
 			specs;
 		checkConfig();
 		globFiles();
+		remapMatchers();
 		checkFiles(files);
 		specs = files.specs.map(function (specFile) {
 			var	getSource = function () {

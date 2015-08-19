@@ -1,6 +1,6 @@
 // This is the glue code between the DaSpec automation framework and the production code
 
-/*global defineStep, InventoryService */
+/*global defineStep, InventoryService, expect */
 var inventoryService = new InventoryService(),
 	orderResult;
 defineStep(/Assuming the following inventory/, function (table) {
@@ -28,6 +28,6 @@ defineStep(/The following items will be (.*):/, function (status, tableOfItems) 
 	actualTable = Object.keys(itemsToCheck).map(function (key) {
 		return [key, itemsToCheck[key]];
 	});
-	this.assertUnorderedTableEquals(tableOfItems, {type:'table', titles: ['Item', 'Quantity'], items: actualTable});
+	expect({type:'table', titles: ['Item', 'Quantity'], items: actualTable}).toEqualUnorderedTable(tableOfItems);
 });
 
