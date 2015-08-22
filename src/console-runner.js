@@ -3,6 +3,7 @@
 var glob = require('glob'),
 	DaSpec = require('daspec-core'),
 	vm = require('vm'),
+	path = require('path'),
 	fs = require('fs');
 module.exports = function ConsoleRunner(config) {
 	'use strict';
@@ -35,13 +36,15 @@ module.exports = function ConsoleRunner(config) {
 	self.run = function () {
 		var files = { specs: [], steps: [], sources: []},
 			sourceScripts,
-			stepScripts,
 			defineSteps = function () {
-				sourceScripts.concat(stepScripts).forEach(function (script) {
+				sourceScripts.forEach(function (script) {
 					script.runInThisContext();
 				});
+				files.steps.forEach(function (filePath) {
+					require(path.resolve(filePath));
+				});
 			},
-			runner = new DaSpec.Runner(defineSteps, config),
+			runner,
 			addFormatters = function () {
 				config.formatters.forEach(function (module) {
 					require(module)(runner, config);
@@ -73,8 +76,7 @@ module.exports = function ConsoleRunner(config) {
 			return {name: specFile, content: getSource};
 		});
 		sourceScripts =	files.sources.map(toScript);
-		stepScripts = files.steps.map(toScript);
-
+		runner = new DaSpec.Runner(defineSteps, config);
 		addFormatters();
 		return runner.executeSuite(specs);
 	};
