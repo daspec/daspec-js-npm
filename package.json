@@ -1,6 +1,6 @@
 {
   "name": "daspec",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Official DaSpec package for the console runner executing specs using Node.js",
   "license": "MIT",
   "repository": {
@@ -31,7 +31,7 @@
   },
   "main": "./src/console-runner.js",
   "dependencies": {
-    "daspec-core": ">=0.0.8",
+    "daspec-core": "^1.0.1",
     "glob": "^5.0.14",
     "mkdirp": "^0.5.1"
   },
